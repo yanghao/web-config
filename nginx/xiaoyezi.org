@@ -6,9 +6,15 @@ server {
         listen 80;
 #       server_name xiaoyezi.org;
         location / {
+                root /home/hua/www;
+                expires 30d;
+                access_log off;
+        }
+
+        location /blog {
                 include uwsgi_params;
-                uwsgi_param UWSGI_CHDIR /home/hua/xiaoyezi.org/;
-                uwsgi_param UWSGI_PYHOME /home/hua/xiaoyezi.org/;
+                uwsgi_param UWSGI_CHDIR /home/hua/uwsgi/blog/;
+                uwsgi_param UWSGI_PYHOME /home/hua/virtualenv/blog/;
                 uwsgi_param UWSGI_SCRIPT main;
                 uwsgi_pass uwsgi_cluster;
         }

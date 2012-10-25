@@ -2,3 +2,5 @@ mako
 markdown
 pygments
 python-memcached
+webob
+webapp2
