@@ -1,0 +1,99 @@
+upstream uwsgi_blog_cluster {
+        server 127.0.0.1:3031;
+}
+
+upstream uwsgi_go_cluster {
+        server 127.0.0.1:3032;
+}
+
+server {
+        listen 80 default_server;
+        server_name xiaoyezi.org www.xiaoyezi.org;
+        location / {
+                root /home/hua/site/www;
+                expires 30d;
+                access_log off;
+        }
+
+        location /blog {
+                include uwsgi_params;
+                uwsgi_param UWSGI_CHDIR /home/hua/uwsgi/blog/;
+                uwsgi_param UWSGI_PYHOME /home/hua/virtualenv/blog/;
+                uwsgi_param UWSGI_SCRIPT main;
+                uwsgi_pass uwsgi_blog_cluster;
+        }
+}
+
+server {
+        server_name static.xiaoyezi.org;
+        location / {
+                root /home/hua/site/static;
+                expires 30d;
+                access_log off;
+        }
+}
+
+server {
+        server_name blog.xiaoyezi.org;
+        location / {
+                root /home/hua/site/blog;
+                expires 30d;
+                access_log off;
+        }
+}
+
+server {
+        server_name dev.xiaoyezi.org;
+        location / {
+                root /home/hua/site/dev;
+                expires 30d;
+                access_log off;
+        }
+}
+
+server {
+        server_name doc.xiaoyezi.org;
+        location / {
+                root /home/hua/site/doc;
+                expires 30d;
+                access_log off;
+        }
+}
+
+server {
+        server_name file.xiaoyezi.org;
+        location / {
+                root /home/hua/site/file;
+                expires 30d;
+                access_log off;
+        }
+}
+
+server {
+        server_name go.xiaoyezi.org;
+        location / {
+                include uwsgi_params;
+                uwsgi_param UWSGI_CHDIR /home/hua/uwsgi/go/;
+                uwsgi_param UWSGI_PYHOME /home/hua/virtualenv/go/;
+                uwsgi_param UWSGI_SCRIPT main;
+                uwsgi_pass uwsgi_go_cluster;
+        }
+}
+
+server {
+        server_name mail.xiaoyezi.org;
+        location / {
+                root /home/hua/site/mail;
+                expires 30d;
+                access_log off;
+        }
+}
+
+server {
+        server_name wiki.xiaoyezi.org;
+        location / {
+                root /home/hua/site/wiki;
+                expires 30d;
+                access_log off;
+        }
+}
